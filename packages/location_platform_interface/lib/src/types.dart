@@ -8,8 +8,8 @@ part of location_platform_interface;
 ///
 /// speedAccuracy cannot be provided on iOS and thus is always 0.
 class LocationData {
-  LocationData._(this.latitude, this.longitude, this.accuracy, this.altitude,
-      this.speed, this.speedAccuracy, this.heading, this.time);
+  LocationData._(this.latitude, this.longitude, this.accuracy, this.altitude, this.speed, this.speedAccuracy,
+      this.heading, this.time, this.floor);
 
   factory LocationData.fromMap(Map<String, double> dataMap) {
     return LocationData._(
@@ -21,6 +21,7 @@ class LocationData {
       dataMap['speed_accuracy'],
       dataMap['heading'],
       dataMap['time'],
+      dataMap['floor'],
     );
   }
 
@@ -58,6 +59,9 @@ class LocationData {
   /// timestamp of the LocationData
   final double? time;
 
+  // floor of the building that the user is in (relevant for apple indoor maps)
+  final dynamic floor;
+
   @override
   String toString() => 'LocationData<lat: $latitude, long: $longitude>';
 
@@ -73,7 +77,8 @@ class LocationData {
           speed == other.speed &&
           speedAccuracy == other.speedAccuracy &&
           heading == other.heading &&
-          time == other.time;
+          time == other.time &&
+          floor == other.floor;
 
   @override
   int get hashCode =>
@@ -84,7 +89,8 @@ class LocationData {
       speed.hashCode ^
       speedAccuracy.hashCode ^
       heading.hashCode ^
-      time.hashCode;
+      time.hashCode ^
+      floor.hashCode;
 }
 
 /// Precision of the Location. A lower precision will provide a greater battery
